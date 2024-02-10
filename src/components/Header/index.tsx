@@ -2,18 +2,21 @@ import { BsCart } from 'react-icons/bs'
 
 //Styles
 import * as C from './styles'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
   return (
     <C.HeaderContainer>
-      <C.HeaderTitle>Club Clothing</C.HeaderTitle>
+      <C.HeaderTitle>
+        <Link to="/">Club Clothing</Link>
+      </C.HeaderTitle>
       <C.HeaderNav>
         <C.HeaderNavContent>
           <C.HeaderNavItem>
             <a href="">Explorar</a>
           </C.HeaderNavItem>
           <C.HeaderNavItem>
-            <a href="">Login</a>
+            <Link to="/login">Login</Link>
           </C.HeaderNavItem>
           <C.HeaderNavItem>
             <a href="">Criar Conta</a>
