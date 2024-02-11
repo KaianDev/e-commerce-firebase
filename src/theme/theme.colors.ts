@@ -11,6 +11,7 @@ const Colors = {
     text: '#6C757D',
   },
   error: '#F25959',
+  bgOpacity: '#E9ECEF69',
 }
 
 export default Colors
