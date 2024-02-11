@@ -4,14 +4,14 @@ import Colors from '../../theme/theme.colors'
 export const CategoriesContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
   height: 100%;
+  flex: 1;
 `
 
 export const CategoriesContent = styled.main`
   max-width: 1440px;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   display: grid;
   grid-template-areas:
     'a b'
