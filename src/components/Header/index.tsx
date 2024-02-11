@@ -19,7 +19,7 @@ const Header = () => {
             <Link to="/login">Login</Link>
           </C.HeaderNavItem>
           <C.HeaderNavItem>
-            <a href="">Criar Conta</a>
+            <Link to="/sign-up">Criar Conta</Link>
           </C.HeaderNavItem>
           <C.HeaderNavItem>
             <C.HeaderCartButton>
