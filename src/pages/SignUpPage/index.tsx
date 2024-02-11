@@ -1,16 +1,21 @@
 import { FiLogIn } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
 import { isEmail } from 'validator'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { addDoc, collection } from 'firebase/firestore'
 
 // Components
 import CustomButton from '../../components/CustomButton'
 import CustomInput from '../../components/CustomInput'
 import Header from '../../components/Header'
 import InputWrapper from '../../components/InputWrapper'
+import ErrorMessage from '../../components/ErrorMessage'
 
 // Styles
 import * as C from './styles'
-import ErrorMessage from '../../components/ErrorMessage'
+
+// Utilities
+import { auth, db } from '../../config/firebase.config'
 
 interface SignUpForm {
   firstName: string
@@ -28,8 +33,23 @@ const SignUpPage = () => {
     getValues,
   } = useForm<SignUpForm>()
 
-  const handleSignInSubmit = (data: SignUpForm) => {
-    console.log(data)
+  const handleSignInSubmit = async (data: SignUpForm) => {
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password,
+      )
+
+      await addDoc(collection(db, 'users'), {
+        id: userCredentials.user.uid,
+        email: userCredentials.user.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -86,7 +106,7 @@ const SignUpPage = () => {
 
           <InputWrapper label="Senha" id="password">
             <CustomInput
-              {...register('password', { required: true })}
+              {...register('password', { required: true, minLength: 6 })}
               placeholder="Digite sua senha"
               id="password"
               type="password"
@@ -95,12 +115,18 @@ const SignUpPage = () => {
             {errors.password?.type === 'required' && (
               <ErrorMessage>Campo Obrigatório</ErrorMessage>
             )}
+            {errors.password?.type === 'minLength' && (
+              <ErrorMessage>
+                A senha deve conter pelo menos 6 caracteres
+              </ErrorMessage>
+            )}
           </InputWrapper>
 
           <InputWrapper label="Confirme sua Senha" id="passwordConfirm">
             <CustomInput
               {...register('passwordConfirm', {
                 required: true,
+                minLength: 6,
                 validate: (value) => value === getValues('password'),
               })}
               placeholder="Confirme sua senha"
@@ -113,6 +139,11 @@ const SignUpPage = () => {
             )}
             {errors.passwordConfirm?.type === 'validate' && (
               <ErrorMessage>As senhas não conferem</ErrorMessage>
+            )}
+            {errors.passwordConfirm?.type === 'minLength' && (
+              <ErrorMessage>
+                A senha deve conter pelo menos 6 caracteres
+              </ErrorMessage>
             )}
           </InputWrapper>
 
