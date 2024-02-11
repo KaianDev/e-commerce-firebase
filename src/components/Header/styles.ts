@@ -1,12 +1,13 @@
 import styled from 'styled-components'
+import Colors from '../../theme/theme.colors'
 
 export const HeaderContainer = styled.header`
   display: flex;
   padding: 1.25rem;
   justify-content: space-between;
   align-items: center;
-  background-color: #212529;
-  color: #f8f9fa;
+  background-color: ${Colors.primary};
+  color: ${Colors.text.light};
 `
 
 export const HeaderTitle = styled.h1`

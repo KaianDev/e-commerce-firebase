@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Colors from '../../theme/theme.colors'
 
 export const ButtonContainer = styled.button`
   display: flex;
@@ -6,8 +7,8 @@ export const ButtonContainer = styled.button`
   align-items: center;
   gap: 0.5rem;
   font-size: 1rem;
-  color: #f8f9fa;
-  background-color: #212529;
+  color: ${Colors.text.light};
+  background-color: ${Colors.primary};
   padding: 1rem 0.625rem;
   border-radius: 0.625rem;
   width: 100%;
