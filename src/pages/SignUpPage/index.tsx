@@ -1,7 +1,11 @@
 import { FiLogIn } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
 import { isEmail } from 'validator'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import {
+  createUserWithEmailAndPassword,
+  AuthErrorCodes,
+  AuthError,
+} from 'firebase/auth'
 import { addDoc, collection } from 'firebase/firestore'
 
 // Components
@@ -31,6 +35,7 @@ const SignUpPage = () => {
     formState: { errors },
     handleSubmit,
     getValues,
+    setError,
   } = useForm<SignUpForm>()
 
   const handleSignInSubmit = async (data: SignUpForm) => {
@@ -48,7 +53,10 @@ const SignUpPage = () => {
         lastName: data.lastName,
       })
     } catch (error) {
-      console.log(error)
+      const _error = error as AuthError
+      if (_error.code === AuthErrorCodes.EMAIL_EXISTS) {
+        setError('email', { type: 'emailExists' })
+      }
     }
   }
 
@@ -101,6 +109,9 @@ const SignUpPage = () => {
               <ErrorMessage>
                 E-mail inválido, informe um e-mail válido!
               </ErrorMessage>
+            )}
+            {errors.email?.type === 'emailExists' && (
+              <ErrorMessage>Endereço de e-mail já utilizado!</ErrorMessage>
             )}
           </InputWrapper>
 
