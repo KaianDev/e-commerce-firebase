@@ -38,7 +38,7 @@ const SignUpPage = () => {
     setError,
   } = useForm<SignUpForm>()
 
-  const handleSignInSubmit = async (data: SignUpForm) => {
+  const handleSignUp = async (data: SignUpForm) => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
@@ -51,6 +51,7 @@ const SignUpPage = () => {
         email: userCredentials.user.email,
         firstName: data.firstName,
         lastName: data.lastName,
+        provider: 'firebase',
       })
     } catch (error) {
       const _error = error as AuthError
@@ -158,7 +159,7 @@ const SignUpPage = () => {
             )}
           </InputWrapper>
 
-          <CustomButton onClick={handleSubmit(handleSignInSubmit)}>
+          <CustomButton onClick={handleSubmit(handleSignUp)}>
             <FiLogIn size={20} />
             Criar Conta
           </CustomButton>
