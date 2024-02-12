@@ -6,7 +6,9 @@ import {
   AuthError,
   AuthErrorCodes,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from 'firebase/auth'
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 
 // Components
 import CustomButton from '../../components/CustomButton'
@@ -19,7 +21,7 @@ import ErrorMessage from '../../components/ErrorMessage'
 import * as C from './styles'
 
 // Utilities
-import { auth } from '../../config/firebase.config'
+import { auth, db, googleProvider } from '../../config/firebase.config'
 
 interface LoginForm {
   email: string
@@ -34,7 +36,7 @@ const LoginPage = () => {
     setError,
   } = useForm<LoginForm>()
 
-  const handleSubmitLoginClick = async (data: LoginForm) => {
+  const handleSignWithCredentials = async (data: LoginForm) => {
     try {
       const userCredentials = await signInWithEmailAndPassword(
         auth,
@@ -43,13 +45,40 @@ const LoginPage = () => {
       )
       console.log(userCredentials)
     } catch (error) {
-      console.log(error)
       const _error = error as AuthError
       if (_error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
         setError('email', { type: 'invalidCredentials' })
         setError('password', { type: 'invalidCredentials' })
         return
       }
+    }
+  }
+
+  const handleSignInWithGoogle = async () => {
+    try {
+      const userCredentials = await signInWithPopup(auth, googleProvider)
+      const querySnapshot = await getDocs(
+        query(
+          collection(db, 'users'),
+          where('id', '==', userCredentials.user.uid),
+        ),
+      )
+      const user = querySnapshot.docs[0]?.data
+
+      if (!user) {
+        const firstName = userCredentials.user.displayName?.split(' ')[0]
+        const lastName = userCredentials.user.displayName?.split(' ')[1]
+
+        await addDoc(collection(db, 'users'), {
+          id: userCredentials.user.uid,
+          email: userCredentials.user.email,
+          firstName,
+          lastName,
+          provider: 'google',
+        })
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -60,7 +89,7 @@ const LoginPage = () => {
         <C.LoginContent>
           <C.LoginTitle>Entre com sua conta</C.LoginTitle>
 
-          <CustomButton>
+          <CustomButton onClick={handleSignInWithGoogle}>
             <BsGoogle size={20} />
             Entrar com o Google
           </CustomButton>
@@ -111,7 +140,7 @@ const LoginPage = () => {
             )}
           </InputWrapper>
 
-          <CustomButton onClick={handleSubmit(handleSubmitLoginClick)}>
+          <CustomButton onClick={handleSubmit(handleSignWithCredentials)}>
             <FiLogIn size={20} />
             Entrar
           </CustomButton>
