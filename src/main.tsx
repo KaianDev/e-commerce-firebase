@@ -2,12 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import UserContextProvider from './context/user.context.tsx'
+
+// Utilities
+import Providers from './providers/providers.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <UserContextProvider>
+    <Providers>
       <App />
-    </UserContextProvider>
+    </Providers>
   </React.StrictMode>,
 )
