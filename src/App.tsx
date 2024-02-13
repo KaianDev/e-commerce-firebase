@@ -7,6 +7,9 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
 
+// Components
+import Loading from './components/Loading'
+
 // Utilities
 import { auth, db } from './config/firebase.config'
 import { useUserContext } from './context/user.context'
@@ -39,7 +42,7 @@ const App = () => {
     setIsStarting(false)
   })
 
-  if (isStarting) return null
+  if (isStarting) return <Loading />
 
   return (
     <BrowserRouter>
