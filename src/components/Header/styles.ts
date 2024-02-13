@@ -27,6 +27,22 @@ export const HeaderNavContent = styled.ul`
 export const HeaderNavItem = styled.li`
   font-size: 1rem;
   font-weight: 600;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
+`
+
+export const HeaderLogoutButton = styled.button`
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  background-color: firebrick;
+  border-radius: 1rem;
 `
 
 export const HeaderCartButton = styled.button`

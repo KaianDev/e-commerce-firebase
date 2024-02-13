@@ -1,18 +1,16 @@
 import { BsCart } from 'react-icons/bs'
-
-//Styles
-import * as C from './styles'
 import { Link } from 'react-router-dom'
-import { User, onAuthStateChanged, signOut } from 'firebase/auth'
+import { signOut } from 'firebase/auth'
+
+// Styles
+import * as C from './styles'
+
+// Utilities
 import { auth } from '../../config/firebase.config'
-import { useState } from 'react'
+import { useUserContext } from '../../context/user.context'
 
 const Header = () => {
-  const [user, setUser] = useState<User | null>()
-
-  onAuthStateChanged(auth, (user) => {
-    setUser(user)
-  })
+  const { isAuthenticated } = useUserContext()
 
   return (
     <C.HeaderContainer>
@@ -24,19 +22,22 @@ const Header = () => {
           <C.HeaderNavItem>
             <a href="">Explorar</a>
           </C.HeaderNavItem>
-          {!user && (
-            <C.HeaderNavItem>
-              <Link to="/login">Login</Link>
-            </C.HeaderNavItem>
+          {!isAuthenticated && (
+            <>
+              <C.HeaderNavItem>
+                <Link to="/login">Login</Link>
+              </C.HeaderNavItem>
+              <C.HeaderNavItem>
+                <Link to="/sign-up">Criar Conta</Link>
+              </C.HeaderNavItem>
+            </>
           )}
-          {!user && (
+
+          {isAuthenticated && (
             <C.HeaderNavItem>
-              <Link to="/sign-up">Criar Conta</Link>
-            </C.HeaderNavItem>
-          )}
-          {user && (
-            <C.HeaderNavItem>
-              <button onClick={() => signOut(auth)}>Sair</button>
+              <C.HeaderLogoutButton onClick={() => signOut(auth)}>
+                Sair
+              </C.HeaderLogoutButton>
             </C.HeaderNavItem>
           )}
           <C.HeaderNavItem>
