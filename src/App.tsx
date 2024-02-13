@@ -11,6 +11,7 @@ import SignUpPage from './pages/SignUpPage'
 import { auth, db } from './config/firebase.config'
 import { useUserContext } from './context/user.context'
 import { useState } from 'react'
+import { userConverter } from './converters/firestore.converters'
 
 const App = () => {
   const [isStarting, setIsStarting] = useState(true)
@@ -26,13 +27,13 @@ const App = () => {
     const isSignInUser = !isAuthenticated && user
     if (isSignInUser) {
       const querySnapshot = await getDocs(
-        query(collection(db, 'users'), where('id', '==', user.uid)),
+        query(
+          collection(db, 'users'),
+          where('id', '==', user.uid),
+        ).withConverter(userConverter),
       )
-
-      const userFromFirestore = querySnapshot.docs[0].data()
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      loginUser(userFromFirestore as any)
+      const currentUser = querySnapshot.docs[0].data()
+      loginUser(currentUser)
       return setIsStarting(false)
     }
   })
