@@ -9,7 +9,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // Components
@@ -18,6 +18,7 @@ import Header from '../../components/Header'
 import CustomInput from '../../components/CustomInput'
 import InputWrapper from '../../components/InputWrapper'
 import ErrorMessage from '../../components/ErrorMessage'
+import Loading from '../../components/Loading'
 
 // Styles
 import * as C from './styles'
@@ -32,6 +33,7 @@ interface LoginForm {
 }
 
 const LoginPage = () => {
+  const [loading, setLoading] = useState(false)
   const {
     register,
     formState: { errors },
@@ -50,6 +52,7 @@ const LoginPage = () => {
 
   const handleSignWithCredentials = async (data: LoginForm) => {
     try {
+      setLoading(true)
       const userCredentials = await signInWithEmailAndPassword(
         auth,
         data.email,
@@ -63,11 +66,14 @@ const LoginPage = () => {
         setError('password', { type: 'invalidCredentials' })
         return
       }
+    } finally {
+      setLoading(false)
     }
   }
 
   const handleSignInWithGoogle = async () => {
     try {
+      setLoading(true)
       const userCredentials = await signInWithPopup(auth, googleProvider)
       const querySnapshot = await getDocs(
         query(
@@ -91,12 +97,15 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <>
       <Header />
+      {loading && <Loading />}
       <C.LoginContainer>
         <C.LoginContent>
           <C.LoginTitle>Entre com sua conta</C.LoginTitle>
