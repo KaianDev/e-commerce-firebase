@@ -71,4 +71,8 @@ export const CategoryItemContent = styled.div`
   font-weight: 600;
   color: ${Colors.text.light};
   cursor: pointer;
+
+  p {
+    font-weight: 400;
+  }
 `

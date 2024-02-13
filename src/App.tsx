@@ -16,6 +16,7 @@ import { auth, db } from './config/firebase.config'
 import { useUserContext } from './context/user.context'
 import { useState } from 'react'
 import { userConverter } from './converters/firestore.converters'
+import CategoryDetailsPage from './pages/CategoryDetailsPage'
 
 const App = () => {
   const [isStarting, setIsStarting] = useState(true)
@@ -50,6 +51,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/category/:id" element={<CategoryDetailsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
       </Routes>

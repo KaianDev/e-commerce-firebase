@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // Styles
 import * as C from './styles'
@@ -11,6 +12,11 @@ import { useCategoryContext } from '../../context/category.context'
 
 const Categories = () => {
   const { fetchCategories, isLoading, categories } = useCategoryContext()
+  const navigate = useNavigate()
+
+  const handleCategoryExploreClick = (categoryId: string) => {
+    navigate(`category/${categoryId}`)
+  }
 
   useEffect(() => {
     fetchCategories()
@@ -22,7 +28,9 @@ const Categories = () => {
       <C.CategoriesContent>
         {categories.map((item) => (
           <C.CategoryItem imageurl={item.imageUrl} key={item.id}>
-            <C.CategoryItemContent>
+            <C.CategoryItemContent
+              onClick={() => handleCategoryExploreClick(item.id)}
+            >
               <strong>{item.displayName}</strong>
               <p>Explorar</p>
             </C.CategoryItemContent>
