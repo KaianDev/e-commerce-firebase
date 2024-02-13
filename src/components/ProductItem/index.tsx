@@ -14,7 +14,7 @@ interface ProductItemProps {
 const ProductItem = ({ product }: ProductItemProps) => {
   return (
     <C.ProductItemContainer>
-      <C.ProductImage imageurl={product.imageUrl}>
+      <C.ProductImage $imageUrl={product.imageUrl}>
         <C.ButtonContainer>
           <CustomButton>
             <BsCartPlusFill size={20} />

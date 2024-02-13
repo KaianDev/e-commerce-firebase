@@ -22,7 +22,7 @@ export const CategoriesContent = styled.main`
 `
 
 interface CategoryItemProps {
-  imageurl: string
+  $imageUrl: string
 }
 
 export const CategoryItem = styled.div<CategoryItemProps>`
@@ -34,7 +34,7 @@ export const CategoryItem = styled.div<CategoryItemProps>`
   background-repeat: no-repeat;
   background-blend-mode: color;
   background-color: #00000033;
-  background-image: url(${(props) => props.imageurl});
+  background-image: url(${(props) => props.$imageUrl});
   background-position: center center;
   background-size: cover;
 

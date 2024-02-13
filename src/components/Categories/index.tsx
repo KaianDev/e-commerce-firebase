@@ -27,7 +27,7 @@ const Categories = () => {
       {isLoading && <Loading />}
       <C.CategoriesContent>
         {categories.map((item) => (
-          <C.CategoryItem imageurl={item.imageUrl} key={item.id}>
+          <C.CategoryItem $imageUrl={item.imageUrl} key={item.id}>
             <C.CategoryItemContent
               onClick={() => handleCategoryExploreClick(item.id)}
             >

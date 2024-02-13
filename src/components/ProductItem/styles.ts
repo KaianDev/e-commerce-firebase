@@ -7,11 +7,11 @@ export const ProductItemContainer = styled.div`
 `
 
 interface ProductImageProps {
-  imageurl: string
+  $imageUrl: string
 }
 
 export const ProductImage = styled.div<ProductImageProps>`
-  background-image: url(${(props) => props.imageurl});
+  background-image: url(${(props) => props.$imageUrl});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
