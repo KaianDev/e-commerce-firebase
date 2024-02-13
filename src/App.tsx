@@ -36,6 +36,7 @@ const App = () => {
       loginUser(currentUser)
       return setIsStarting(false)
     }
+    setIsStarting(false)
   })
 
   if (isStarting) return null
