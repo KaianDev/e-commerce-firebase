@@ -20,7 +20,7 @@ const Header = () => {
       <C.HeaderNav>
         <C.HeaderNavContent>
           <C.HeaderNavItem>
-            <a href="">Explorar</a>
+            <Link to="/explore">Explorar</Link>
           </C.HeaderNavItem>
           {!isAuthenticated && (
             <>

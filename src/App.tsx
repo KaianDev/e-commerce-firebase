@@ -4,6 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 
 // Pages
 import HomePage from './pages/HomePage'
+import ExplorePage from './pages/ExplorePage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
 
@@ -48,6 +49,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/explore" element={<ExplorePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
       </Routes>
