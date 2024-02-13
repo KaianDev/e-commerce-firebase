@@ -21,7 +21,7 @@ const Categories = () => {
       {isLoading && <Loading />}
       <C.CategoriesContent>
         {categories.map((item) => (
-          <C.CategoryItem imageUrl={item.imageUrl} key={item.id}>
+          <C.CategoryItem imageurl={item.imageUrl} key={item.id}>
             <C.CategoryItemContent>
               <strong>{item.displayName}</strong>
               <p>Explorar</p>
