@@ -9,6 +9,8 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // Components
 import CustomButton from '../../components/CustomButton'
@@ -22,6 +24,7 @@ import * as C from './styles'
 
 // Utilities
 import { auth, db, googleProvider } from '../../config/firebase.config'
+import { useUserContext } from '../../context/user.context'
 
 interface LoginForm {
   email: string
@@ -35,6 +38,15 @@ const LoginPage = () => {
     handleSubmit,
     setError,
   } = useForm<LoginForm>()
+
+  const { isAuthenticated } = useUserContext()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
 
   const handleSignWithCredentials = async (data: LoginForm) => {
     try {

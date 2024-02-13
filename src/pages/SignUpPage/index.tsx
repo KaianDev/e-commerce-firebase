@@ -7,6 +7,8 @@ import {
   AuthError,
 } from 'firebase/auth'
 import { addDoc, collection } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 // Components
 import CustomButton from '../../components/CustomButton'
@@ -20,6 +22,7 @@ import * as C from './styles'
 
 // Utilities
 import { auth, db } from '../../config/firebase.config'
+import { useUserContext } from '../../context/user.context'
 
 interface SignUpForm {
   firstName: string
@@ -37,6 +40,15 @@ const SignUpPage = () => {
     getValues,
     setError,
   } = useForm<SignUpForm>()
+
+  const { isAuthenticated } = useUserContext()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
 
   const handleSignUp = async (data: SignUpForm) => {
     try {
