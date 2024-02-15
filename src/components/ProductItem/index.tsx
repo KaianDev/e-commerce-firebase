@@ -22,12 +22,10 @@ const ProductItem = ({ product }: ProductItemProps) => {
   return (
     <C.ProductItemContainer>
       <C.ProductImage $imageUrl={product.imageUrl}>
-        <C.ButtonContainer>
-          <CustomButton onClick={handleAddProductClick}>
-            <BsCartPlusFill size={20} />
-            Adicionar ao Carrinho
-          </CustomButton>
-        </C.ButtonContainer>
+        <CustomButton onClick={handleAddProductClick}>
+          <BsCartPlusFill size={20} />
+          Adicionar ao Carrinho
+        </CustomButton>
       </C.ProductImage>
 
       <C.ProductInfo>

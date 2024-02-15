@@ -22,12 +22,27 @@ export const ProductImage = styled.div<ProductImageProps>`
   overflow: hidden;
   box-shadow: 0px 5px 3px #00000088;
   transition: all 300ms;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.125rem;
+  background-color: transparent;
+  background-blend-mode: color;
+  transition: all 0.3s ease;
+
+  button {
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
 
   &:hover {
-    filter: brightness(0.5);
+    background-color: #00000088;
+    background-blend-mode: color;
 
     button {
-      display: block;
+      visibility: visible;
+      opacity: 1;
+      filter: brightness(1);
     }
   }
 `
@@ -56,9 +71,4 @@ export const ButtonContainer = styled.div`
   width: 100%;
   position: absolute;
   bottom: 0;
-
-  button {
-    transition: all 300ms;
-    display: none;
-  }
 `
