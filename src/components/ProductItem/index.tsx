@@ -7,16 +7,23 @@ import CustomButton from '../CustomButton'
 // Styles
 import * as C from './styles'
 
+// Utilities
+import { useCartContext } from '../../context/cart.context'
+
 interface ProductItemProps {
   product: Product
 }
 
 const ProductItem = ({ product }: ProductItemProps) => {
+  const { addProductToCart } = useCartContext()
+
+  const handleAddProductClick = () => addProductToCart(product)
+
   return (
     <C.ProductItemContainer>
       <C.ProductImage $imageUrl={product.imageUrl}>
         <C.ButtonContainer>
-          <CustomButton>
+          <CustomButton onClick={handleAddProductClick}>
             <BsCartPlusFill size={20} />
             Adicionar ao Carrinho
           </CustomButton>
