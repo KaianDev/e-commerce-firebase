@@ -1,3 +1,4 @@
+import CartContextProvider from '../context/cart.context'
 import CategoryContextProvider from '../context/category.context'
 import UserContextProvider from '../context/user.context'
 
@@ -8,7 +9,9 @@ interface ProvidersProps {
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <UserContextProvider>
-      <CategoryContextProvider>{children}</CategoryContextProvider>
+      <CategoryContextProvider>
+        <CartContextProvider>{children}</CartContextProvider>
+      </CategoryContextProvider>
     </UserContextProvider>
   )
 }
