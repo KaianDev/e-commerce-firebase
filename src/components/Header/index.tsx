@@ -8,9 +8,11 @@ import * as C from './styles'
 // Utilities
 import { auth } from '../../config/firebase.config'
 import { useUserContext } from '../../context/user.context'
+import { useCartContext } from '../../context/cart.context'
 
 const Header = () => {
   const { isAuthenticated } = useUserContext()
+  const { toggleCartVisible } = useCartContext()
 
   return (
     <C.HeaderContainer>
@@ -41,7 +43,7 @@ const Header = () => {
             </C.HeaderNavItem>
           )}
           <C.HeaderNavItem>
-            <C.HeaderCartButton>
+            <C.HeaderCartButton onClick={toggleCartVisible}>
               <BsCart size={25} /> <span>5</span>
             </C.HeaderCartButton>
           </C.HeaderNavItem>

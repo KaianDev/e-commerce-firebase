@@ -7,16 +7,17 @@ import HomePage from './pages/HomePage'
 import ExplorePage from './pages/ExplorePage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
+import CategoryDetailsPage from './pages/CategoryDetailsPage'
 
 // Components
 import Loading from './components/Loading'
+import Cart from './components/Cart'
 
 // Utilities
 import { auth, db } from './config/firebase.config'
 import { useUserContext } from './context/user.context'
 import { useState } from 'react'
 import { userConverter } from './converters/firestore.converters'
-import CategoryDetailsPage from './pages/CategoryDetailsPage'
 
 const App = () => {
   const [isStarting, setIsStarting] = useState(true)
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
       </Routes>
+      <Cart />
     </BrowserRouter>
   )
 }
