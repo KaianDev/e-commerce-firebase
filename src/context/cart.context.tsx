@@ -1,19 +1,29 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 import CartProduct from '../types/CartProduct'
 import Product from '../types/Product'
 
 interface ICartContext {
   isVisible: boolean
-  toggleCartVisible: () => void
   products: CartProduct[]
+  productTotalPrice: number
+  productTotalQuantity: number
+  toggleCartVisible: () => void
   addProductToCart: (product: Product) => void
+  increaseProductQuantity: (id: string) => void
+  decreaseProductQuantity: (id: string) => void
+  removeProductToCart: (id: string) => void
 }
 
 const CartContext = createContext<ICartContext>({
   isVisible: false,
   products: [],
+  productTotalPrice: 0,
+  productTotalQuantity: 0,
   toggleCartVisible: () => {},
   addProductToCart: () => {},
+  increaseProductQuantity: () => {},
+  decreaseProductQuantity: () => {},
+  removeProductToCart: () => {},
 })
 
 interface CartContextProviderProps {
@@ -22,6 +32,17 @@ interface CartContextProviderProps {
 const CartContextProvider = ({ children }: CartContextProviderProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const [products, setProducts] = useState<CartProduct[]>([])
+
+  const productTotalPrice = useMemo(() => {
+    return products.reduce(
+      (acc, product) => (acc = acc + product.quantity * product.price),
+      0,
+    )
+  }, [products])
+
+  const productTotalQuantity = useMemo(() => {
+    return products.reduce((acc, product) => (acc = acc + product.quantity), 0)
+  }, [products])
 
   const toggleCartVisible = () => setIsVisible((prev) => !prev)
 
@@ -40,9 +61,45 @@ const CartContextProvider = ({ children }: CartContextProviderProps) => {
     }
   }
 
+  const increaseProductQuantity = (id: string) => {
+    setProducts((prev) => {
+      return prev.map((prevItem) => {
+        return prevItem.id === id
+          ? { ...prevItem, quantity: prevItem.quantity + 1 }
+          : prevItem
+      })
+    })
+  }
+
+  const decreaseProductQuantity = (id: string) => {
+    setProducts((prev) => {
+      return prev
+        .map((prevItem) => {
+          return prevItem.id === id
+            ? { ...prevItem, quantity: prevItem.quantity - 1 }
+            : prevItem
+        })
+        .filter((prevItem) => prevItem.quantity > 0)
+    })
+  }
+
+  const removeProductToCart = (id: string) => {
+    setProducts((prev) => prev.filter((prevItem) => prevItem.id !== id))
+  }
+
   return (
     <CartContext.Provider
-      value={{ isVisible, products, toggleCartVisible, addProductToCart }}
+      value={{
+        isVisible,
+        products,
+        productTotalPrice,
+        productTotalQuantity,
+        toggleCartVisible,
+        addProductToCart,
+        increaseProductQuantity,
+        decreaseProductQuantity,
+        removeProductToCart,
+      }}
     >
       {children}
     </CartContext.Provider>

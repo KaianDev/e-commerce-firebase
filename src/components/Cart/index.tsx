@@ -1,20 +1,28 @@
+import { useNavigate } from 'react-router-dom'
 import { BsCartCheck } from 'react-icons/bs'
 
 // Utilities
 import { useCartContext } from '../../context/cart.context'
+import { toRealPrice } from '../../helpers/toRealPrice'
 
 // Components
 import CustomButton from '../CustomButton'
+import CartItem from '../CartItem'
 
 // Styles
 import * as C from './styles'
-import CartItem from '../CartItem'
 
 const Cart = () => {
-  const { isVisible, toggleCartVisible, products } = useCartContext()
+  const navigate = useNavigate()
+  const { isVisible, toggleCartVisible, products, productTotalPrice } =
+    useCartContext()
+  const handleGoToCheckoutClick = () => {
+    navigate('/checkout')
+    toggleCartVisible()
+  }
 
   return (
-    <C.CartContainer isVisible={isVisible}>
+    <C.CartContainer $isVisible={isVisible}>
       <C.CartScape onClick={toggleCartVisible} />
       <C.CartContent>
         <C.CartTitle>Seu Carrinho</C.CartTitle>
@@ -25,12 +33,16 @@ const Cart = () => {
           ))}
         </C.CartProductList>
 
-        <C.CartTotal>R$ 999,00</C.CartTotal>
+        {products.length > 0 && (
+          <>
+            <C.CartTotal>Total: {toRealPrice(productTotalPrice)}</C.CartTotal>
 
-        <CustomButton>
-          <BsCartCheck />
-          Ir para o checkout
-        </CustomButton>
+            <CustomButton onClick={handleGoToCheckoutClick}>
+              <BsCartCheck />
+              Ir para o checkout
+            </CustomButton>
+          </>
+        )}
       </C.CartContent>
     </C.CartContainer>
   )

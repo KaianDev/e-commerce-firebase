@@ -2,6 +2,8 @@ import { FiPlus, FiMinus, FiX } from 'react-icons/fi'
 
 // Utilities
 import CartProduct from '../../types/CartProduct'
+import { toRealPrice } from '../../helpers/toRealPrice'
+import { useCartContext } from '../../context/cart.context'
 
 // Styles
 import * as C from './styles'
@@ -11,6 +13,16 @@ interface CartItemProps {
 }
 
 const CartItem = ({ product }: CartItemProps) => {
+  const {
+    increaseProductQuantity,
+    decreaseProductQuantity,
+    removeProductToCart,
+  } = useCartContext()
+
+  const handleIncreaseQuantityClick = () => increaseProductQuantity(product.id)
+  const handleDecreaseQuantityClick = () => decreaseProductQuantity(product.id)
+  const handleRemoveProductToCartClick = () => removeProductToCart(product.id)
+
   return (
     <C.CartItemContainer>
       <C.CartItemImage src={product.imageUrl} alt={product.imageUrl} />
@@ -18,27 +30,22 @@ const CartItem = ({ product }: CartItemProps) => {
       <C.CartInfoContainer>
         <C.CartItemTitle>{product.name}</C.CartItemTitle>
 
-        <C.CartItemPrice>
-          {(product.price * product.quantity).toLocaleString('pt-br', {
-            currency: 'brl',
-            style: 'currency',
-          })}
-        </C.CartItemPrice>
+        <C.CartItemPrice>{toRealPrice(product.price)}</C.CartItemPrice>
 
         <C.CartQuantityButtonContainer>
-          <C.CartButton>
+          <C.CartButton onClick={handleDecreaseQuantityClick}>
             <FiMinus size={20} />
           </C.CartButton>
 
           <p>{product.quantity}</p>
 
-          <C.CartButton>
+          <C.CartButton onClick={handleIncreaseQuantityClick}>
             <FiPlus size={20} />
           </C.CartButton>
         </C.CartQuantityButtonContainer>
       </C.CartInfoContainer>
 
-      <C.CartButton>
+      <C.CartButton onClick={handleRemoveProductToCartClick}>
         <FiX size={30} />
       </C.CartButton>
     </C.CartItemContainer>
