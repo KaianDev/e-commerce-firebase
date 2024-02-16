@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const CartItemContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 0.625rem;
+  gap: 1rem;
   align-items: center;
 `
 

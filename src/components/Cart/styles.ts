@@ -20,7 +20,7 @@ export const CartScape = styled.div`
 `
 
 export const CartContent = styled.div`
-  width: 400px;
+  width: 450px;
   overflow-y: auto;
   background-color: #fff;
   box-shadow: 5px 0 5px #000;

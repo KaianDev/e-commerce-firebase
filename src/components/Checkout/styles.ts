@@ -24,7 +24,7 @@ export const CheckoutContainer = styled.div`
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background-color: ${Colors.text.dark};
+    background-color: #000;
     border-radius: 5px;
   }
 `
@@ -42,6 +42,7 @@ export const CheckoutProducts = styled.div`
   flex-direction: column;
   gap: 1.5625rem;
   margin-top: 1rem;
+  margin-bottom: 1rem;
   padding-bottom: 1rem;
 `
 
