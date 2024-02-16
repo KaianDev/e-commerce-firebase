@@ -8,6 +8,7 @@ import ExplorePage from './pages/ExplorePage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
 import CategoryDetailsPage from './pages/CategoryDetailsPage'
+import CheckoutPage from './pages/CheckoutPage'
 
 // Components
 import Loading from './components/Loading'
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/category/:id" element={<CategoryDetailsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
       <Cart />
     </BrowserRouter>
