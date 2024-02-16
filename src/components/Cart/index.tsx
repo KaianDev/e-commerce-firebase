@@ -43,6 +43,10 @@ const Cart = () => {
             </CustomButton>
           </>
         )}
+
+        {products.length === 0 && (
+          <p>Seu Carrinho está vazio, vamos as compras?</p>
+        )}
       </C.CartContent>
     </C.CartContainer>
   )
