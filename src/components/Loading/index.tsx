@@ -1,10 +1,19 @@
-import Colors from '../../theme/theme.colors'
-import { LoadingContainer } from './styles'
 import PulseLoader from 'react-spinners/PulseLoader'
 
-const Loading = () => {
+// Utilities
+import Colors from '../../theme/theme.colors'
+
+// Styles
+import { LoadingContainer } from './styles'
+
+interface LoadingProps {
+  message?: string
+}
+
+const Loading = ({ message }: LoadingProps) => {
   return (
     <LoadingContainer>
+      {message && <p>{message}</p>}
       <PulseLoader size={30} color={Colors.primary} />
     </LoadingContainer>
   )
