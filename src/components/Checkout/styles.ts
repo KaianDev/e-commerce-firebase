@@ -44,10 +44,7 @@ export const CheckoutProducts = styled.div`
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-`
-
-export const CheckoutButtonContainer = styled.div`
-  width: 650px;
+  padding-right: 0.5rem;
 `
 
 export const CheckoutProductsTotalPrice = styled.p`
