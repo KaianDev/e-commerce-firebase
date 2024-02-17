@@ -12,6 +12,7 @@ export const ButtonContainer = styled.button`
   padding: 1rem 0.625rem;
   border-radius: 0.625rem;
   width: 100%;
+  max-width: 650px;
 
   &:hover {
     background-color: #000;
