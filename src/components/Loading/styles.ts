@@ -10,6 +10,7 @@ export const LoadingContainer = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 1.5rem;
+  z-index: 100;
 
   p {
     font-size: 1.5rem;
