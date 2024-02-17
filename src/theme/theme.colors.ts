@@ -12,6 +12,7 @@ const Colors = {
   },
   error: '#F25959',
   bgOpacity: '#E9ECEF69',
+  success: '#77ff33',
 }
 
 export default Colors
