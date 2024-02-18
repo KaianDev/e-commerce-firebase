@@ -5,11 +5,15 @@ import './index.css'
 
 // Utilities
 import Providers from './providers/providers.tsx'
+import { Provider } from 'react-redux'
+import store from './store/store.ts'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Providers>
-      <App />
-    </Providers>
+    <Provider store={store}>
+      <Providers>
+        <App />
+      </Providers>
+    </Provider>
   </React.StrictMode>,
 )
