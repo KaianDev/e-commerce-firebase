@@ -3,6 +3,6 @@ import Colors from '../../theme/theme.colors'
 
 export const ErrorMessage = styled.p`
   color: ${Colors.error};
-  font-size: 0.625rem;
+  font-size: 0.8rem;
   text-align: start;
 `
