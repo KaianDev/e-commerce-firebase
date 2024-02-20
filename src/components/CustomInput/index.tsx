@@ -11,7 +11,7 @@ type Ref = HTMLInputElement
 
 const CustomInput = forwardRef<Ref, CustomInputProps>(
   ({ hasError, ...rest }, ref) => (
-    <C.Input ref={ref} error={hasError} {...rest} />
+    <C.Input ref={ref} $error={hasError} {...rest} />
   ),
 )
 
