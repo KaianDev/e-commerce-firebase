@@ -11,7 +11,6 @@ import {
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 // Components
 import CustomButton from '../../components/CustomButton'
@@ -26,6 +25,7 @@ import * as C from './styles'
 
 // Utilities
 import { auth, db, googleProvider } from '../../config/firebase.config'
+import { useAppSelector } from '../../hooks/redux.hooks'
 
 interface LoginForm {
   email: string
@@ -41,9 +41,8 @@ const LoginPage = () => {
     setError,
   } = useForm<LoginForm>()
 
-  const { isAuthenticated } = useSelector(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (rootState: any) => rootState.userReducer,
+  const { isAuthenticated } = useAppSelector(
+    (rootState) => rootState.userReducer,
   )
   const navigate = useNavigate()
 

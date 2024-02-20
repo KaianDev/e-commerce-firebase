@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { onAuthStateChanged } from 'firebase/auth'
-import { useSelector, useDispatch } from 'react-redux'
 
 // Pages
 import HomePage from './pages/HomePage'
@@ -21,22 +20,22 @@ import Cart from './components/Cart'
 import { auth, db } from './config/firebase.config'
 import { userConverter } from './converters/firestore.converters'
 import AuthenticationGuard from './guards/authentication.guard'
-import { login, logout } from './store/reducers/user/user.actions'
+import { loginUser, logoutUser } from './store/reducers/user/user.actions'
+import { useAppDispatch, useAppSelector } from './hooks/redux.hooks'
 
 const App = () => {
   const [isStarting, setIsStarting] = useState(true)
 
-  const { isAuthenticated } = useSelector(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (rootState: any) => rootState.userReducer,
+  const { isAuthenticated } = useAppSelector(
+    (rootState) => rootState.userReducer,
   )
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       const isSignOutUser = isAuthenticated && !user
       if (isSignOutUser) {
-        dispatch(logout())
+        dispatch(logoutUser())
         return setIsStarting(false)
       }
 
@@ -49,7 +48,7 @@ const App = () => {
           ).withConverter(userConverter),
         )
         const currentUser = querySnapshot.docs[0].data()
-        dispatch(login(currentUser))
+        dispatch(loginUser(currentUser))
         return setIsStarting(false)
       }
       setIsStarting(false)

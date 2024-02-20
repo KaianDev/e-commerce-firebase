@@ -1,7 +1,6 @@
 import { BsCart } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
-import { useSelector, useDispatch } from 'react-redux'
 
 // Styles
 import * as C from './styles'
@@ -9,18 +8,19 @@ import * as C from './styles'
 // Utilities
 import { auth } from '../../config/firebase.config'
 import { useCartContext } from '../../context/cart.context'
-import { logout } from '../../store/reducers/user/user.actions'
+import { logoutUser } from '../../store/reducers/user/user.actions'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks'
 
 const Header = () => {
-  const { isAuthenticated } = useSelector(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (rootState: any) => rootState.userReducer,
+  const { isAuthenticated } = useAppSelector(
+    (rootState) => rootState.userReducer,
   )
   const { toggleCartVisible, productTotalQuantity } = useCartContext()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
+
   const handleSignOutClick = () => {
     signOut(auth)
-    dispatch(logout())
+    dispatch(logoutUser())
   }
 
   return (
