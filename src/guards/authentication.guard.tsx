@@ -1,8 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-// Utilities
-import { useUserContext } from '../context/user.context'
+import { useSelector } from 'react-redux'
 
 // Components
 import Loading from '../components/Loading'
@@ -13,7 +11,10 @@ interface AuthenticationGuardProps {
 }
 
 const AuthenticationGuard = ({ children }: AuthenticationGuardProps) => {
-  const { isAuthenticated } = useUserContext()
+  const { isAuthenticated } = useSelector(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (rootState: any) => rootState.userReducer,
+  )
   const navigate = useNavigate()
 
   useEffect(() => {

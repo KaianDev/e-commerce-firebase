@@ -9,6 +9,7 @@ import {
 import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 // Components
 import CustomButton from '../../components/CustomButton'
@@ -23,7 +24,6 @@ import * as C from './styles'
 
 // Utilities
 import { auth, db } from '../../config/firebase.config'
-import { useUserContext } from '../../context/user.context'
 
 interface SignUpForm {
   firstName: string
@@ -43,7 +43,10 @@ const SignUpPage = () => {
     setError,
   } = useForm<SignUpForm>()
 
-  const { isAuthenticated } = useUserContext()
+  const { isAuthenticated } = useSelector(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (rootState: any) => rootState.userReducer,
+  )
   const navigate = useNavigate()
 
   useEffect(() => {

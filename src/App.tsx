@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { onAuthStateChanged } from 'firebase/auth'
+import { useSelector, useDispatch } from 'react-redux'
 
 // Pages
 import HomePage from './pages/HomePage'
@@ -17,36 +19,41 @@ import Cart from './components/Cart'
 
 // Utilities
 import { auth, db } from './config/firebase.config'
-import { useUserContext } from './context/user.context'
-import { useState } from 'react'
 import { userConverter } from './converters/firestore.converters'
 import AuthenticationGuard from './guards/authentication.guard'
 
 const App = () => {
   const [isStarting, setIsStarting] = useState(true)
-  const { isAuthenticated, loginUser, logoutUser } = useUserContext()
 
-  onAuthStateChanged(auth, async (user) => {
-    const isSignOutUser = isAuthenticated && !user
-    if (isSignOutUser) {
-      logoutUser()
-      return setIsStarting(false)
-    }
+  const { isAuthenticated } = useSelector(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (rootState: any) => rootState.userReducer,
+  )
+  const dispatch = useDispatch()
 
-    const isSignInUser = !isAuthenticated && user
-    if (isSignInUser) {
-      const querySnapshot = await getDocs(
-        query(
-          collection(db, 'users'),
-          where('id', '==', user.uid),
-        ).withConverter(userConverter),
-      )
-      const currentUser = querySnapshot.docs[0].data()
-      loginUser(currentUser)
-      return setIsStarting(false)
-    }
-    setIsStarting(false)
-  })
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      const isSignOutUser = isAuthenticated && !user
+      if (isSignOutUser) {
+        dispatch({ type: 'LOGOUT_USER' })
+        return setIsStarting(false)
+      }
+
+      const isSignInUser = !isAuthenticated && user
+      if (isSignInUser) {
+        const querySnapshot = await getDocs(
+          query(
+            collection(db, 'users'),
+            where('id', '==', user.uid),
+          ).withConverter(userConverter),
+        )
+        const currentUser = querySnapshot.docs[0].data()
+        dispatch({ type: 'LOGIN_USER', payload: currentUser })
+        return setIsStarting(false)
+      }
+      setIsStarting(false)
+    })
+  }, [dispatch])
 
   if (isStarting) return <Loading />
 
