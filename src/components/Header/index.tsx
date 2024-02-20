@@ -9,6 +9,7 @@ import * as C from './styles'
 // Utilities
 import { auth } from '../../config/firebase.config'
 import { useCartContext } from '../../context/cart.context'
+import { logout } from '../../store/reducers/user/user.actions'
 
 const Header = () => {
   const { isAuthenticated } = useSelector(
@@ -19,7 +20,7 @@ const Header = () => {
   const dispatch = useDispatch()
   const handleSignOutClick = () => {
     signOut(auth)
-    dispatch({ type: 'LOGOUT_USER' })
+    dispatch(logout())
   }
 
   return (

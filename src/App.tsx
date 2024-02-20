@@ -21,6 +21,7 @@ import Cart from './components/Cart'
 import { auth, db } from './config/firebase.config'
 import { userConverter } from './converters/firestore.converters'
 import AuthenticationGuard from './guards/authentication.guard'
+import { login, logout } from './store/reducers/user/user.actions'
 
 const App = () => {
   const [isStarting, setIsStarting] = useState(true)
@@ -35,7 +36,7 @@ const App = () => {
     onAuthStateChanged(auth, async (user) => {
       const isSignOutUser = isAuthenticated && !user
       if (isSignOutUser) {
-        dispatch({ type: 'LOGOUT_USER' })
+        dispatch(logout())
         return setIsStarting(false)
       }
 
@@ -48,7 +49,7 @@ const App = () => {
           ).withConverter(userConverter),
         )
         const currentUser = querySnapshot.docs[0].data()
-        dispatch({ type: 'LOGIN_USER', payload: currentUser })
+        dispatch(login(currentUser))
         return setIsStarting(false)
       }
       setIsStarting(false)

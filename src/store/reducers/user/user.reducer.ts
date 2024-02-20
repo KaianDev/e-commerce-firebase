@@ -1,4 +1,5 @@
-import User from '../../types/User'
+import User from '../../../types/User'
+import userActionType from './user.action-types'
 
 interface InitialState {
   user: User | null
@@ -13,9 +14,9 @@ const initialState: InitialState = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const userReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case 'LOGIN_USER':
+    case userActionType.LOGIN:
       return { ...state, user: action.payload, isAuthenticated: true }
-    case 'LOGOUT_USER':
+    case userActionType.LOGOUT:
       return { ...state, user: null, isAuthenticated: false }
     default:
       return state
