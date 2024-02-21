@@ -8,16 +8,18 @@ import CustomButton from '../CustomButton'
 import * as C from './styles'
 
 // Utilities
-import { useCartContext } from '../../context/cart.context'
+import { useAppDispatch } from '../../hooks/redux.hooks'
+import { addProductToCart } from '../../store/reducers/cart/cart.actions'
 
 interface ProductItemProps {
   product: Product
 }
 
 const ProductItem = ({ product }: ProductItemProps) => {
-  const { addProductToCart } = useCartContext()
-
-  const handleAddProductClick = () => addProductToCart(product)
+  const dispatch = useAppDispatch()
+  const handleAddProductClick = () => {
+    dispatch(addProductToCart(product))
+  }
 
   return (
     <C.ProductItemContainer>

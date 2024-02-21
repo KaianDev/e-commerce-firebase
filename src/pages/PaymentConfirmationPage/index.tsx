@@ -15,11 +15,12 @@ import * as C from './styles'
 
 // Utilities
 import Colors from '../../theme/theme.colors'
-import { useCartContext } from '../../context/cart.context'
+import { useAppDispatch } from '../../hooks/redux.hooks'
+import { clearCart } from '../../store/reducers/cart/cart.actions'
 
 const PaymentConfirmationPage = () => {
   const [searchParams] = useSearchParams()
-  const { clearCart } = useCartContext()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const isCanceled = searchParams.get('canceled') === 'true'
@@ -29,7 +30,7 @@ const PaymentConfirmationPage = () => {
 
   useEffect(() => {
     if (status === 'true') {
-      clearCart()
+      dispatch(clearCart())
     }
   }, [status])
 

@@ -7,20 +7,26 @@ import * as C from './styles'
 
 // Utilities
 import { auth } from '../../config/firebase.config'
-import { useCartContext } from '../../context/cart.context'
 import { logoutUser } from '../../store/reducers/user/user.actions'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks'
+import { toggleVisibility } from '../../store/reducers/cart/cart.actions'
+import { selectProductsTotalQuantity } from '../../store/reducers/cart/cart.selector'
 
 const Header = () => {
   const { isAuthenticated } = useAppSelector(
     (rootState) => rootState.userReducer,
   )
-  const { toggleCartVisible, productTotalQuantity } = useCartContext()
+
+  const productTotalQuantity = useAppSelector(selectProductsTotalQuantity)
   const dispatch = useAppDispatch()
 
   const handleSignOutClick = () => {
     signOut(auth)
     dispatch(logoutUser())
+  }
+
+  const handleToggleCartVisible = () => {
+    dispatch(toggleVisibility())
   }
 
   return (
@@ -52,7 +58,7 @@ const Header = () => {
             </C.HeaderNavItem>
           )}
           <C.HeaderNavItem>
-            <C.HeaderCartButton onClick={toggleCartVisible}>
+            <C.HeaderCartButton onClick={handleToggleCartVisible}>
               <BsCart size={25} /> <span>{productTotalQuantity}</span>
             </C.HeaderCartButton>
           </C.HeaderNavItem>

@@ -3,7 +3,12 @@ import { FiPlus, FiMinus, FiX } from 'react-icons/fi'
 // Utilities
 import CartProduct from '../../types/CartProduct'
 import { toRealPrice } from '../../helpers/toRealPrice'
-import { useCartContext } from '../../context/cart.context'
+import { useAppDispatch } from '../../hooks/redux.hooks'
+import {
+  decreaseProductQuantityToCart,
+  increaseProductQuantityToCart,
+  removeProductToCart,
+} from '../../store/reducers/cart/cart.actions'
 
 // Styles
 import * as C from './styles'
@@ -13,15 +18,18 @@ interface CartItemProps {
 }
 
 const CartItem = ({ product }: CartItemProps) => {
-  const {
-    increaseProductQuantity,
-    decreaseProductQuantity,
-    removeProductToCart,
-  } = useCartContext()
+  const dispatch = useAppDispatch()
 
-  const handleIncreaseQuantityClick = () => increaseProductQuantity(product.id)
-  const handleDecreaseQuantityClick = () => decreaseProductQuantity(product.id)
-  const handleRemoveProductToCartClick = () => removeProductToCart(product.id)
+  const handleIncreaseQuantityClick = () => {
+    dispatch(increaseProductQuantityToCart(product.id))
+  }
+
+  const handleDecreaseQuantityClick = () => {
+    dispatch(decreaseProductQuantityToCart(product.id))
+  }
+  const handleRemoveProductToCartClick = () => {
+    dispatch(removeProductToCart(product.id))
+  }
 
   return (
     <C.CartItemContainer>

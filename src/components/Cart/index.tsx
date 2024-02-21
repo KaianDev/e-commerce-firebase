@@ -2,8 +2,10 @@ import { useNavigate } from 'react-router-dom'
 import { BsCartCheck } from 'react-icons/bs'
 
 // Utilities
-import { useCartContext } from '../../context/cart.context'
 import { toRealPrice } from '../../helpers/toRealPrice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks'
+import { toggleVisibility } from '../../store/reducers/cart/cart.actions'
+import { selectProductsTotalPrice } from '../../store/reducers/cart/cart.selector'
 
 // Components
 import CustomButton from '../CustomButton'
@@ -14,16 +16,24 @@ import * as C from './styles'
 
 const Cart = () => {
   const navigate = useNavigate()
-  const { isVisible, toggleCartVisible, products, productTotalPrice } =
-    useCartContext()
+  const productTotalPrice = useAppSelector(selectProductsTotalPrice)
+
+  const { isVisible, products } = useAppSelector(
+    (rootState) => rootState.cartReducer,
+  )
+
+  const dispatch = useAppDispatch()
+
   const handleGoToCheckoutClick = () => {
     navigate('/checkout')
-    toggleCartVisible()
+    dispatch(toggleVisibility())
   }
+
+  const handleToggleCartVisible = () => dispatch(toggleVisibility())
 
   return (
     <C.CartContainer $isVisible={isVisible}>
-      <C.CartScape onClick={toggleCartVisible} />
+      <C.CartScape onClick={handleToggleCartVisible} />
       <C.CartContent>
         <C.CartTitle>Seu Carrinho</C.CartTitle>
 

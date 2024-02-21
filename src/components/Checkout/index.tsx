@@ -3,8 +3,9 @@ import { BsCartCheck } from 'react-icons/bs'
 import axios from 'axios'
 
 // Utilities
-import { useCartContext } from '../../context/cart.context'
 import { toRealPrice } from '../../helpers/toRealPrice'
+import { useAppSelector } from '../../hooks/redux.hooks'
+import { selectProductsTotalPrice } from '../../store/reducers/cart/cart.selector'
 
 // Components
 import CartItem from '../CartItem'
@@ -16,8 +17,9 @@ import Loading from '../Loading'
 import * as C from './styles'
 
 const Checkout = () => {
-  const { productTotalPrice, products } = useCartContext()
+  const productTotalPrice = useAppSelector(selectProductsTotalPrice)
   const [isLoading, setIsLoading] = useState(false)
+  const { products } = useAppSelector((rootState) => rootState.cartReducer)
 
   const handleFinishPurchaseClick = async () => {
     try {
