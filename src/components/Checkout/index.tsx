@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BsCartCheck } from 'react-icons/bs'
 import axios from 'axios'
 
 // Utilities
 import { toRealPrice } from '../../helpers/toRealPrice'
 import { useAppSelector } from '../../hooks/redux.hooks'
-import { selectProductsTotalPrice } from '../../store/reducers/cart/cart.selector'
+import {
+  selectProductsTotalPrice,
+  selectProductsTotalQuantity,
+} from '../../store/reducers/cart/cart.selector'
 
 // Components
 import CartItem from '../CartItem'
@@ -15,11 +18,20 @@ import Loading from '../Loading'
 
 // Styles
 import * as C from './styles'
+import { useNavigate } from 'react-router-dom'
 
 const Checkout = () => {
   const productTotalPrice = useAppSelector(selectProductsTotalPrice)
+  const productTotalQuantity = useAppSelector(selectProductsTotalQuantity)
   const [isLoading, setIsLoading] = useState(false)
   const { products } = useAppSelector((rootState) => rootState.cartReducer)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (productTotalQuantity === 0) {
+      navigate('/')
+    }
+  }, [products])
 
   const handleFinishPurchaseClick = async () => {
     try {
