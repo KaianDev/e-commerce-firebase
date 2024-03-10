@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 // Components
 import CategoryOverview from '../CategoryOverview'
@@ -8,14 +10,18 @@ import Loading from '../Loading'
 import { CategoryOverviewContainer } from './styles'
 
 // Utilities
-import { useCategoryContext } from '../../context/category.context'
+import { fetchCategories } from '../../store/reducers/category/category.actions'
+import { useAppSelector } from '../../hooks/redux.hooks'
 
 const CategoriesOverview = () => {
-  const { categories, fetchCategories, isLoading } = useCategoryContext()
+  const { categories, isLoading } = useAppSelector(
+    (rootState) => rootState.categoryReducer,
+  )
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (categories.length === 0) {
-      fetchCategories()
+      dispatch(fetchCategories() as any)
     }
   }, [])
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,18 +9,22 @@ import * as C from './styles'
 import Loading from '../Loading'
 
 // Utilities
-import { useCategoryContext } from '../../context/category.context'
+import { useDispatch } from 'react-redux'
+import { fetchCategories } from '../../store/reducers/category/category.actions'
+import { useAppSelector } from '../../hooks/redux.hooks'
 
 const Categories = () => {
-  const { fetchCategories, isLoading, categories } = useCategoryContext()
+  const { categories, isLoading } = useAppSelector(
+    (rootState) => rootState.categoryReducer,
+  )
   const navigate = useNavigate()
-
+  const dispatch = useDispatch()
   const handleCategoryExploreClick = (categoryId: string) => {
     navigate(`category/${categoryId}`)
   }
 
   useEffect(() => {
-    fetchCategories()
+    dispatch(fetchCategories() as any)
   }, [])
 
   return (

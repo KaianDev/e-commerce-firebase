@@ -40,6 +40,7 @@ const Checkout = () => {
         `${config.apiUrl}/create-checkout-session`,
         { products },
       )
+      console.log(data)
       window.location.href = data.url
     } catch (error) {
       console.log({ error })

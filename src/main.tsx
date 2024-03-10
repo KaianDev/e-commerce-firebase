@@ -5,7 +5,6 @@ import App from './App.tsx'
 import './index.css'
 
 // Utilities
-import Providers from './providers/providers.tsx'
 import { Provider } from 'react-redux'
 import { store, persistedStore } from './store/store.ts'
 // @ts-ignore
@@ -15,9 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistedStore}>
-        <Providers>
-          <App />
-        </Providers>
+        <App />
       </PersistGate>
     </Provider>
   </React.StrictMode>,
